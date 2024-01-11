@@ -1,10 +1,7 @@
 import type { Metadata, NextPage } from 'next';
 import type { PropsWithChildren } from 'react';
-import { Work_Sans } from 'next/font/google'
 import { Header, Footer } from '../../features';
 import './globals.css'
-
-const workSans = Work_Sans({ subsets: ['latin'], weight: '400' });
 
 export const metadata: Metadata = {
     title: 'Flexibble',
@@ -15,14 +12,12 @@ const RootLayout: NextPage<PropsWithChildren> = ({ children }) => {
 
     return (
         <html lang='ko'>
-            <body className={workSans.className}>
-                <div className='flex flex-col items-center min-h-screen bg-gradient-to-r from-green-200 to-blue-300'>
-                    <Header />
-                    <div className='flex-1'>
-                        {children}
-                    </div>
-                    <Footer />
+            <body className='flex flex-col min-h-screen bg-gradient-to-r from-light-white to-slate-200'>
+                <Header />
+                <div className='flex flex-col flex-1 w-full mx-auto max-w-7xl'>                    
+                    {children}
                 </div>
+                <Footer />
             </body>
         </html>
     );
