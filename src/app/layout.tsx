@@ -1,6 +1,6 @@
 import type { Metadata, NextPage } from 'next';
 import type { PropsWithChildren } from 'react';
-import { Header, Footer } from '../../features';
+import { Header, Footer } from '@/features';
 import './globals.css'
 
 export const metadata: Metadata = {
