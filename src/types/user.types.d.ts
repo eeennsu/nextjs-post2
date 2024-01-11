@@ -2,9 +2,9 @@ import type { Article } from './article.types';
 import type { NewUser } from './auth.types';
 
 type UserProfile = NewUser & {
-    desc: string;
-    githubURL: string;
-    linkedinURL: string;
+    description: string;
+    githubUrl: string;
+    linkedinUrl: string;
     articles: {
         edges: {
             node: Article[];

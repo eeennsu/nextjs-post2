@@ -2,10 +2,10 @@ import type { NewUser } from './auth.types';
 
 type Form = {
     title: string;
-    desc: string;
+    description: string;
     image: string;
-    liveSiteURL: string;
-    githubURL: string;
+    liveSiteUrl: string;
+    githubUrl: string;
     category: string;
 }
 

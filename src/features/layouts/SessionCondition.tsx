@@ -3,18 +3,27 @@
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import type { FC } from 'react';
+import AuthProviders from '../providers/AuthProviders';
 
 const SessionCondition: FC = () => {
 
-    const session = {};
+    const session = false;
 
     return (
         <>
-            User Profile 
+            {
+                session ? (
+                    <>
+                        User Photo                       
 
-            <Link href="/create-project">
-                Share
-            </Link>
+                        <Link href="/create-project">
+                            Share
+                        </Link>
+                    </>
+                ) : (
+                    <AuthProviders />
+                )
+            }
         </>
     );
 }

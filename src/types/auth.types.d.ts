@@ -1,12 +1,17 @@
-import type { User, Session } from 'next-auth';
+type Provider = {
+    id: string;
+    name: string;
+    type: string;
+    signinUrl: string;
+    callbackUrl: string;
+    signinUrlParams?: Record<string, string> | null;
+}
+
+type Providers = Record<string, Provider>;
 
 type NewUser = {
     id: string;
     name: string;
     email: string;
-    avatarURL: string;
-}
-
-type NewSession = Session & {
-    user: User & NewUser;
+    avatarUrl: string;
 }
