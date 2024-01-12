@@ -39,7 +39,7 @@ const Menu: FC<{ link: NavLink }> = ({ link }) => {
     
     return (
         <li>
-            <Link className='' href={link.href}>
+            <Link className='font-medium hover:underline underline-offset-2' href={link.href}>
                 {link.text}
             </Link>
         </li>

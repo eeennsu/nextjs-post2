@@ -10,7 +10,7 @@ type Provider = {
 type Providers = Record<string, Provider>;
 
 type NewUser = {
-    id: string;
+    _id: string;
     name: string;
     email: string;
     avatarUrl: string;

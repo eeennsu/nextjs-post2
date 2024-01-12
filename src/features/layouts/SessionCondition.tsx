@@ -3,7 +3,8 @@ import { getCurrentUser } from '@/lib/session';
 import Link from 'next/link';
 import Auth from './Auth';
 import Image from 'next/image';
-import Logout from './Logout';
+import ProfileMenu from './ProfileMenu';
+import Button from '@/components/Button';
 
 const SessionCondition: FC = async () => {
 
@@ -11,18 +12,14 @@ const SessionCondition: FC = async () => {
 
     return (
         session?.user ? (
-            <>
-                {
-                    session?.user?.avatarUrl && (
-                        <Image src={session?.user?.avatarUrl} alt='avatar' width={36} height={36} className='rounded-full object-contain' />
-                    )
-                }                   
-
-                <Link href="/create-project">
-                    Share
+            <div className='flex items-center gap-4'>
+                <ProfileMenu session={session} />               
+                <Link href="/create-article" className='font-semibold'>
+                    <Button className='bg-slate-700 hover:bg-slate-600'>
+                        Share
+                    </Button>
                 </Link>
-                <Logout />
-            </>
+            </div>
         ) : (
             <Auth />
         )
