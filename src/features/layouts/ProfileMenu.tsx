@@ -17,7 +17,7 @@ const ProfileMenu: FC<Props> = ({ session }) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     return (
-        <Popover className='relative flex items-center' as='div' onMouseLeave={() => setIsModalOpen(false)}>
+        <Popover className='relative flex' as='div' onMouseLeave={() => setIsModalOpen(false)}>
             <Popover.Button onMouseEnter={() => setIsModalOpen(true)} className='outline-none'>
                 {
                     session?.user?.avatarUrl && (
@@ -28,14 +28,14 @@ const ProfileMenu: FC<Props> = ({ session }) => {
             <Transition 
                 show={isModalOpen} 
                 as={Fragment}
-                enter='transition ease-out duration-200'
+                enter='transition ease-out duration-150'
                 enterFrom='transform opacity-0 scale-95'
                 enterTo='transform opacity-100 scale-100'
                 leave='transition ease-in duration-75'
                 leaveFrom='transform opacity-100 scale-100'
                 leaveTo='transform opacity-0 scale-95'
             >
-                <Popover.Panel className='absolute z-10 w-max bg-slate-50/65 rounded-md shadow-menu'>
+                <Popover.Panel className='absolute top-9 z-10 w-max bg-slate-50 rounded-md shadow-menu'>
                     <div className='flex flex-col items-center w-44 justify-center gap-4 py-6'>
                         <h3>
                             <Image src={session!.user!.avatarUrl} alt='avatar' width={64} height={64} className='object-contain rounded-full' />
