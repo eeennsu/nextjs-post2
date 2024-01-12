@@ -1,16 +1,11 @@
 import { Schema, model, models } from 'mongoose';
 
 const UserSchema = new Schema({
-    firstname: {
+    name: {
         type: String,
         min: 1,
         max: 24,
-    },
-
-    lastname: {
-        type: String,
-        min: 1,
-        max: 10,
+        required: [true, 'Name must be required.']
     },
 
     email: {

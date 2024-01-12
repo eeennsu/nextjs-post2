@@ -1,15 +1,10 @@
 'use client';
 
 import type { FC } from 'react';
-import type { Session, User } from 'next-auth';
 import { getProviders, signIn } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 
-export type NewSession = Session & {
-    user: User & NewUser;
-}
-
-const AuthProviders: FC = () => {
+const Auth: FC = () => {
 
     const [providers, setProviders] = useState<Providers | null>(null);
 
@@ -23,8 +18,8 @@ const AuthProviders: FC = () => {
             <div>
                 {
                     Object.values(providers).map((provider) => (
-                        <button key={provider.id}>
-                            {provider.id}
+                        <button key={provider.id} onClick={() => signIn(provider.id)}>
+                            Login
                         </button>
                     ))
                 }
@@ -32,11 +27,7 @@ const AuthProviders: FC = () => {
         );
     } 
 
-    return (
-        <div>
-            AuthProviders
-        </div>
-    );
+    return null;
 }
 
-export default AuthProviders;
+export default Auth;

@@ -1,30 +1,31 @@
-'use client';
-
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 import type { FC } from 'react';
-import AuthProviders from '../providers/AuthProviders';
+import { getCurrentUser } from '@/lib/session';
+import Link from 'next/link';
+import Auth from './Auth';
+import Image from 'next/image';
+import Logout from './Logout';
 
-const SessionCondition: FC = () => {
+const SessionCondition: FC = async () => {
 
-    const session = false;
+    const session = await getCurrentUser();
 
     return (
-        <>
-            {
-                session ? (
-                    <>
-                        User Photo                       
+        session?.user ? (
+            <>
+                {
+                    session?.user?.avatarUrl && (
+                        <Image src={session?.user?.avatarUrl} alt='avatar' width={40} height={40} className='rounded-full' />
+                    )
+                }                   
 
-                        <Link href="/create-project">
-                            Share
-                        </Link>
-                    </>
-                ) : (
-                    <AuthProviders />
-                )
-            }
-        </>
+                <Link href="/create-project">
+                    Share
+                </Link>
+                <Logout />
+            </>
+        ) : (
+            <Auth />
+        )
     );
 }
 
