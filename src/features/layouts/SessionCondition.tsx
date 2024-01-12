@@ -14,7 +14,7 @@ const SessionCondition: FC = async () => {
             <>
                 {
                     session?.user?.avatarUrl && (
-                        <Image src={session?.user?.avatarUrl} alt='avatar' width={40} height={40} className='rounded-full' />
+                        <Image src={session?.user?.avatarUrl} alt='avatar' width={36} height={36} className='rounded-full object-contain' />
                     )
                 }                   
 

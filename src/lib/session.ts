@@ -1,9 +1,7 @@
 import type { NextAuthOptions, Session, User as NextAuthUser } from 'next-auth';
-import type { JWT } from 'next-auth/jwt';
 import { getServerSession } from 'next-auth/next';
 import GoogleProvider from 'next-auth/providers/google';
 import connectToDB from '@/db/db';
-import jsonwebtoken from 'jsonwebtoken';
 import User from '@/models/User';
 
 export const authOptions: NextAuthOptions = {
@@ -17,14 +15,6 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
         })
     ],
-    // jwt: {
-    //     encode: ({ secret, token }) => {
-
-    //     },
-    //     decode: async ({ secret }) => {
-
-    //     }
-    // },
     theme: {
         colorScheme: 'light',
         logo: '/logo.png',
