@@ -3,6 +3,7 @@
 import type { FC } from 'react';
 import { getProviders, signIn } from 'next-auth/react';
 import { useState, useEffect } from 'react';
+import Button from '@/components/Button';
 
 const Auth: FC = () => {
 
@@ -18,9 +19,9 @@ const Auth: FC = () => {
             <div>
                 {
                     Object.values(providers).map((provider) => (
-                        <button key={provider.id} onClick={() => signIn(provider.id)}>
+                        <Button key={provider.id} onClick={() => signIn(provider.id)}>
                             Login
-                        </button>
+                        </Button>
                     ))
                 }
             </div>

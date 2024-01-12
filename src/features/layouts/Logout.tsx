@@ -2,13 +2,14 @@
 
 import type { FC } from 'react';
 import { signOut } from 'next-auth/react';
+import Button from '@/components/Button';
 
 const Logout: FC = () => {
 
     return (
-        <button onClick={() => signOut()}>
+        <Button onClick={() => signOut()} isWhite>
             Logout
-        </button>
+        </Button>
     );
 }
 
