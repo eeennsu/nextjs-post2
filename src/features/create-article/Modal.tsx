@@ -23,7 +23,7 @@ const Modal: FC<PropsWithChildren> = ({ children }) => {
     }
 
     return (
-        <div className='fixed inset-0 z-10 mx-auto bg-black/60 flex justify-center' ref={overlay} onClick={handleClick}
+        <div className='fixed inset-0 z-10 flex justify-center mx-auto bg-black/60' ref={overlay} onClick={handleClick}
         >
             <button className='absolute p-3 transition-colors bg-black rounded-full top-3 right-3 lg:right-[88px] hover:bg-slate-800' onClick={handleDismiss}>
                 <Image src='/close.svg' width={15} height={15} alt='close' />

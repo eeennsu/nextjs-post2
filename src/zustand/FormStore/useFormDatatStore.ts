@@ -1,8 +1,8 @@
-import type { FormInputStoreType } from './types';
+import type { FormDataStoreType } from './types';
 import { createWithEqualityFn } from 'zustand/traditional';
 import { devtools } from 'zustand/middleware';
 
-const useFormInputStore = createWithEqualityFn<FormInputStoreType>()(
+const useFormDatatStore = createWithEqualityFn<FormDataStoreType>()(
     devtools(
         (set) => ({          
             formData: {
@@ -11,7 +11,7 @@ const useFormInputStore = createWithEqualityFn<FormInputStoreType>()(
                 image: '',
                 liveSiteUrl: '',
                 githubUrl: '',
-                category: '',   
+                category: '',
             },
             
             setFormData: (key, value) => set((state) => ({
@@ -24,4 +24,4 @@ const useFormInputStore = createWithEqualityFn<FormInputStoreType>()(
     )
 );
 
-export default useFormInputStore;
+export default useFormDatatStore;

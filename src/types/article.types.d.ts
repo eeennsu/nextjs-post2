@@ -1,4 +1,5 @@
 import type { NewUser } from './auth.types';
+import type { CateogryFilter } from '@/constants';
 
 type Form = {
     title: string;
@@ -6,7 +7,7 @@ type Form = {
     image: string;
     liveSiteUrl: string;
     githubUrl: string;
-    category: string;
+    category: CateogryFilter | '';
 }
 
 type Article = Form & {
