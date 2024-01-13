@@ -1,13 +1,12 @@
-import type { NewUser } from './auth.types';
-import type { CateogryFilter } from '@/constants';
+type Category =  'Frontend' | 'Backend' | 'Full-Stack' | 'Mobile' | 'UI/UX' | 'Game Dev' | 'DevOps' | 'Data Science' | 'Machine Learning' | 'Cybersecurity' | 'Blockchain' | 'E-commerce' | 'Chatbots';
 
 type Form = {
     title: string;
     description: string;
     image: string;
     liveSiteUrl: string;
-    githubUrl: string;
-    category: CateogryFilter | '';
+    githubUrl: string;  
+    category: Category | '';
 }
 
 type Article = Form & {

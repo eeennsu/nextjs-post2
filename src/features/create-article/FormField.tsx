@@ -1,7 +1,6 @@
 'use client';
 
 import type { ChangeEvent, FC } from 'react';
-import type { Form } from '@/types/article.types';
 import { memo } from 'react';
 import useFormDatatStore from '@/zustand/FormStore/useFormDatatStore'
 
@@ -46,6 +45,7 @@ const FormField: FC<Props> = ({ type, label, formKey, placeholder, isTextArea })
                             placeholder={placeholder}
                             value={value}
                             onChange={handleChange}
+                            required={true}
                         />
                     )
                 }

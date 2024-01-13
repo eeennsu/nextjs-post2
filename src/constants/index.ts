@@ -10,9 +10,11 @@ export const navLinks: NavLink[] = [
     { href: '/', key: 'Hire Developers', text: 'Hire Developers' }
 ];
   
-export const categoryFilters = [
+
+
+export const categoryFilters: Category[] = [
     'Frontend',
-    'Backend',
+    'Backend',   
     'Full-Stack',
     'Mobile',
     'UI/UX',
@@ -23,10 +25,8 @@ export const categoryFilters = [
     'Cybersecurity',
     'Blockchain',
     'E-commerce',
-    'Chatbots'
-] as const;
-
-export type CateogryFilter = typeof categoryFilters[number];
+    'Chatbots',
+];
 
 export type FooterLink = {
     title: string;

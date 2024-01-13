@@ -4,14 +4,16 @@ import type { FC, ChangeEvent, FormEvent } from 'react';
 import type { NewSession } from '@/lib/session';
 import { useState } from 'react';
 import { categoryFilters } from '@/constants';
+import { craeteNewArticle } from '@/lib/actions';
 import Image from 'next/image';
 import FormField from './FormField';
 import useFormInputStore from '@/zustand/FormStore/useFormDatatStore';
 import CustomMenu from './CustomMenu';
-import toast from 'react-hot-toast';
+import toast, { LoaderIcon } from 'react-hot-toast';
 import PlusIcon from '@/components/PlusIcon';
 import Button2 from '@/components/Button2';
 import RefreshIcon from '@/components/RefreshIcon';
+import { useRouter } from 'next/navigation';
 
 type Props = {
     type: 'create' | 'update';
@@ -21,9 +23,9 @@ type Props = {
 const ArticleForm: FC<Props> = ({ type, session }) => {
 
     const formData  = useFormInputStore(state => state.formData);
-
     const setFormDatas = useFormInputStore(state => state.setFormData);
 
+    const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -58,19 +60,37 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
         }
     }
     
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         setIsSubmitting(true);
         // toast.loading('등록하는 중..');
         
         try {
-            
+            if (type === 'create') {
+                const result = await craeteNewArticle({
+                    ...formData,
+                    title: formData.title.trim(),
+                    description: formData.description.trim(),
+                    liveSiteUrl: formData.liveSiteUrl.trim(),
+                    githubUrl: formData.githubUrl.trim()               
+                }, session.user._id);
+
+                if (!result) {
+                    toast.error('이미지를 업로딩하는 과정에서 오류가 발생했습니다.');
+                    router.push('/');
+                    return;
+                }
+
+                toast.success('등록되었습니다!');
+                router.push('/');
+            } else {
+
+            }
         } catch (error) {
-            console.log(error);
+            console.log((error as Error).message);
             toast.error('등록에 실패하였습니다.');
-        } finally {
-            toast.success('등록되었습니다!');
+        } finally {    
             setIsSubmitting(false);
         }
     }
@@ -79,9 +99,7 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
         <form className='flex flex-col items-center justify-start w-full max-w-5xl pt-6 mx-auto text-lg lg:mt-14 mt-7 gap-9' onSubmit={handleSubmit}>
             <div className='flex justify-start items-center w-full lg:min-h-[230px] relative'>
                 <label className='z-10 w-full p-20 text-center text-gray-100 border-2 border-dashed rounded-md border-gray-100/80' htmlFor='poster'>
-                    {
-                        formData.image.length === 0 && 'Choose a poster for your article.'
-                    }
+                    {formData.image.length === 0 && 'Choose a poster for your article.'}
                 </label>
                 <input 
                     className='absolute opacity-0 z-30 w-full h-full cursor-pointer'
@@ -138,13 +156,29 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
                 {
                     type === 'create' ? (
                         <Button2 type='submit' disabled={isSubmitting}>
-                            <PlusIcon className='mr-2 h-5 w-5' />
-                            <span className='capitalize'>create</span>
+                            {
+                                isSubmitting ? (
+                                    <Spinner />
+                                ) : (
+                                    <>
+                                        <PlusIcon className='mr-2 h-5 w-5' />
+                                        create
+                                    </>
+                                )
+                            }
                         </Button2>
                     ) : (
                         <Button2 type='submit' color='green' disabled={isSubmitting}>
-                            <RefreshIcon className='mr-2 h-5 w-5' />
-                            <span className='capitalize'>update</span>
+                            {
+                                isSubmitting ? (
+                                    <Spinner />
+                                ) : (
+                                    <>
+                                        <RefreshIcon className='mr-2 h-5 w-5' />
+                                        update
+                                    </>
+                                )
+                            }                            
                         </Button2>
                     )
                 }
@@ -154,3 +188,15 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
 }
 
 export default ArticleForm;
+
+
+
+const Spinner: FC = () => {
+    
+    return (
+        <>
+            <LoaderIcon className="mr-2 h-5 w-5 animate-spin" />
+            <span>Loading...</span>
+        </>
+    );
+}

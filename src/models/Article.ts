@@ -39,7 +39,6 @@ const ArticleSchema = new Schema({
         type: String,
         required: [true, 'Category must be required.'],
     },
-
 });
 
 export const Article = models['Article'] || model('Article', ArticleSchema);

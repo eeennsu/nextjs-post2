@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import type { CateogryFilter } from '@/constants';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, memo } from 'react';
 import useFormDatatStore from '@/zustand/FormStore/useFormDatatStore';
@@ -7,7 +6,7 @@ import Image from 'next/image';
 
 type Props = {
     label: string;
-    filters: Readonly<CateogryFilter[]>;
+    filters: Readonly<Category[]>;
 }
 
 const CustomMenu: FC<Props> = ({ label, filters }) => {
@@ -15,7 +14,7 @@ const CustomMenu: FC<Props> = ({ label, filters }) => {
     const category = useFormDatatStore(state => state.formData.category);
     const setFormData = useFormDatatStore(state => state.setFormData);
 
-    const handleChange = (value: CateogryFilter) => {
+    const handleChange = (value: Category) => {
         setFormData('category', value);
     }
 
@@ -24,12 +23,18 @@ const CustomMenu: FC<Props> = ({ label, filters }) => {
             <label className='w-full font-extrabold text-gray-100' htmlFor={label}>
                 {label}            
             </label>
-            <Menu as='div' className='relative self-start xs:min-w-72 w-fit'>
+            <Menu as='div' className='relative self-start xs:min-w-[400px] w-fit'>
                 <div>
-                    <Menu.Button className='inline-flex items-center justify-between w-full gap-4 p-4 text-base capitalize rounded-md outline-none bg-light-white-100'>
-                        <span className='text-opacity-60'>
-                            {category.length !==0 ? category : 'Select a category'}
-                        </span>
+                    <Menu.Button className='inline-flex items-center justify-between w-full gap-4 p-4 h-[60px] text-base capitalize rounded-md outline-none bg-light-white-100'>                     
+                        {category.length !==0 ? (
+                            <span className='text-lg font-semibold'>
+                                {category}
+                            </span>
+                        ) : (
+                            <span className='text-gray-100/60'>
+                                Select a category
+                            </span>
+                        )}                        
                         <Image
                             src='/arrow-down.svg'
                             width={10}
@@ -51,7 +56,7 @@ const CustomMenu: FC<Props> = ({ label, filters }) => {
                         {
                             filters.map((tag) => (
                                 <Menu.Item key={tag}>
-                                    <button className='self-start w-full px-5 py-2 text-sm text-left capitalize hover:bg-light-white-100 whitespace-nowrap' value={tag} onClick={() => handleChange(tag)}>
+                                    <button className='self-start w-full px-5 py-3 text-lg text-left capitalize hover:bg-light-white-100 whitespace-nowrap' type='button' value={tag} onClick={(e) => handleChange(e.currentTarget.value as Category)}>
                                         {tag}
                                     </button>
                                 </Menu.Item>
