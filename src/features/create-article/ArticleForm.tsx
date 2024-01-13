@@ -3,13 +3,15 @@
 import type { FC, ChangeEvent, FormEvent } from 'react';
 import type { NewSession } from '@/lib/session';
 import { useState } from 'react';
-import { shallow } from 'zustand/shallow';
 import { categoryFilters } from '@/constants';
 import Image from 'next/image';
 import FormField from './FormField';
 import useFormInputStore from '@/zustand/FormStore/useFormDatatStore';
 import CustomMenu from './CustomMenu';
 import toast from 'react-hot-toast';
+import PlusIcon from '@/components/PlusIcon';
+import Button2 from '@/components/Button2';
+import RefreshIcon from '@/components/RefreshIcon';
 
 type Props = {
     type: 'create' | 'update';
@@ -18,24 +20,11 @@ type Props = {
 
 const ArticleForm: FC<Props> = ({ type, session }) => {
 
-    const { title, description, image, liveSiteUrl, githubUrl, category }  = useFormInputStore(state => ({
-        title: state.formData.title, 
-        description: state.formData.description, 
-        image: state.formData.image, 
-        liveSiteUrl: state.formData.liveSiteUrl, 
-        githubUrl: state.formData.githubUrl, 
-        category: state.formData.category, 
-    }), shallow);
+    const formData  = useFormInputStore(state => state.formData);
 
     const setFormDatas = useFormInputStore(state => state.setFormData);
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        console.log(title);
-    }
 
     const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -49,7 +38,7 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
 
         const file = files[0];
 
-        if (file.type.includes('image')) {
+        if (!file.type.includes('image')) {
             toast.error('이미지를 선택해주세요.');
             return;
         }
@@ -68,16 +57,34 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
             }
         }
     }
+    
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        setIsSubmitting(true);
+        // toast.loading('등록하는 중..');
+        
+        try {
+            
+        } catch (error) {
+            console.log(error);
+            toast.error('등록에 실패하였습니다.');
+        } finally {
+            toast.success('등록되었습니다!');
+            setIsSubmitting(false);
+        }
+    }
 
     return (
         <form className='flex flex-col items-center justify-start w-full max-w-5xl pt-6 mx-auto text-lg lg:mt-14 mt-7 gap-9' onSubmit={handleSubmit}>
-            <div className='flex justify-start items-center w-full lg:min-h-[190px] relative'>
+            <div className='flex justify-start items-center w-full lg:min-h-[230px] relative'>
                 <label className='z-10 w-full p-20 text-center text-gray-100 border-2 border-dashed rounded-md border-gray-100/80' htmlFor='poster'>
                     {
-                        image.length === 0 && 'Choose a poster for your article.'
+                        formData.image.length === 0 && 'Choose a poster for your article.'
                     }
                 </label>
                 <input 
+                    className='absolute opacity-0 z-30 w-full h-full cursor-pointer'
                     id='image'
                     type='file'
                     accept='image/*'
@@ -85,9 +92,9 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
                     onChange={handleChangeImage}
                 />    
                 {
-                    image && (
+                    formData.image && (
                         <Image 
-                            src={image}
+                            src={formData.image}
                             className='z-20 object-contain sm:p-10'
                             alt='article poster'
                             fill
@@ -123,14 +130,25 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
                 placeholder='https://github.com/eeennsu'
             />
 
-            <CustomMenu 
-                label='Category'
-                filters={categoryFilters}
-            />
-
-            <button type='submit'>
-                submit
-            </button>
+            <div className='flex justify-between w-full items-end'>
+                <CustomMenu 
+                    label='Category'
+                    filters={categoryFilters}
+                />
+                {
+                    type === 'create' ? (
+                        <Button2 type='submit' disabled={isSubmitting}>
+                            <PlusIcon className='mr-2 h-5 w-5' />
+                            <span className='capitalize'>create</span>
+                        </Button2>
+                    ) : (
+                        <Button2 type='submit' color='green' disabled={isSubmitting}>
+                            <RefreshIcon className='mr-2 h-5 w-5' />
+                            <span className='capitalize'>update</span>
+                        </Button2>
+                    )
+                }
+            </div>          
         </form>
     );
 }

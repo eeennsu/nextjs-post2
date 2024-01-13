@@ -49,8 +49,7 @@ const FormField: FC<Props> = ({ type, label, formKey, placeholder, isTextArea })
                         />
                     )
                 }
-            </label>
-            
+            </label>            
         </div>
     );
 }

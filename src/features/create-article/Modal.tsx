@@ -32,7 +32,7 @@ const Modal: FC<PropsWithChildren> = ({ children }) => {
                 initial={{ opacity: 0.4, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className='flex justify-start items-center flex-col absolute h-[94%] w-full lg:w-11/12 bottom-0 bg-white rounded-t-2xl  lg:px-40 px-8 pt-14 pb-72 overflow-auto'
+                className='flex justify-start items-center flex-col absolute h-[94%] w-full lg:w-11/12 bottom-0 bg-white rounded-t-2xl lg:px-40 px-8 pt-14 pb-6 lg:pb-14 overflow-auto'
                 ref={wrapper} 
             >
                 {children}
