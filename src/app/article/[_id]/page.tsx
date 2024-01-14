@@ -10,14 +10,16 @@ type Props = {
 
 const ArticlePage: NextPage<Props> = async ({ params: { _id } }) => {
 
-    const { result } = await getOneArticle(_id);
+    const { result } = await getOneArticle(_id) as { result: Article };
 
     if (!result) {
         return (
-            <div className='flex items-center justify-center'>
-                <h1 className='text-xl'>Article not found</h1>
+            <div className='flex items-center justify-center flex-col lg:pt-22 pt-11 gap-4'>
+                <h2 className='text-xl font-bold'>
+                    Failed to fetch article information.
+                </h2>
                 <Link href='/' className='underline'>
-                    <a>Home</a>
+                    Home
                 </Link>
             </div>
         )
