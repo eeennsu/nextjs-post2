@@ -1,19 +1,22 @@
 'use client';
 
 import type { FC, PropsWithChildren, MouseEvent } from 'react';
-import { useRef, Fragment } from 'react';
+import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import useFormDatatStore from '@/zustand/FormStore/useFormDatatStore';
 
 const Modal: FC<PropsWithChildren> = ({ children }) => {
 
+    const resetFormData = useFormDatatStore(state => state.resetFormData);
     const overlay = useRef<HTMLDivElement>(null);
     const wrapper = useRef<HTMLDivElement>(null);
     const router = useRouter();
     
     const handleDismiss = () => {
         router.push('/');
+        resetFormData();
     }
 
     const handleClick = (e: MouseEvent<HTMLDivElement>) => {

@@ -6,7 +6,7 @@ import Image from 'next/image';
 const Footer: FC = () => {
 
     return (
-        <footer className='flex flex-col w-full px-6 py-4 xl:px-36 xl:py-8'>
+        <footer className='flex flex-col w-full px-6 py-4 xl:px-36 xl:py-8 bg-slate-300/85'>
             <section className='flex flex-col items-start gap-5'>
                 <Image 
                     src='/logo.svg'

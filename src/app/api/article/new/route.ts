@@ -8,7 +8,7 @@ export async function POST(req: Request) {
 
     try {
         await connectToDB();
-
+        
         const newArticle = new Article({
             createdBy, 
             title,
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
 
         await newArticle.save();
 
-        return NextResponse.json({ newArticle }, { status: 201 });
+        return NextResponse.json({ result: newArticle }, { status: 201 });
     } catch (error) {
         console.log(error);
         return NextResponse.json({ msg: (error as Error).message }, { status: 500 });  

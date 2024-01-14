@@ -2,24 +2,28 @@ import type { FormDataStoreType } from './types';
 import { createWithEqualityFn } from 'zustand/traditional';
 import { devtools } from 'zustand/middleware';
 
+const initFormData: Form = {
+    title: '',
+    description: '',
+    image: '',
+    liveSiteUrl: '',
+    githubUrl: '',
+    category: '',
+};
+
 const useFormDatatStore = createWithEqualityFn<FormDataStoreType>()(
     devtools(
         (set) => ({          
-            formData: {
-                title: '',
-                description: '',
-                image: '',
-                liveSiteUrl: '',
-                githubUrl: '',
-                category: '',
-            },
+            formData: initFormData,
             
             setFormData: (key, value) => set((state) => ({
                 formData: {
                     ...state.formData,
                     [key]: value
                 }
-            }), false, 'SET_FORM_DATA')
+            }), false, 'SET_FORM_DATA'),
+
+            resetFormData: () => set(() => ({ formData: initFormData }), false, 'RESET_FORM_DATA')
         })
     )
 );

@@ -5,6 +5,7 @@ import type { NewSession } from '@/lib/session';
 import { useState } from 'react';
 import { categoryFilters } from '@/constants';
 import { craeteNewArticle } from '@/lib/actions';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import FormField from './FormField';
 import useFormInputStore from '@/zustand/FormStore/useFormDatatStore';
@@ -13,7 +14,6 @@ import toast, { LoaderIcon } from 'react-hot-toast';
 import PlusIcon from '@/components/PlusIcon';
 import Button2 from '@/components/Button2';
 import RefreshIcon from '@/components/RefreshIcon';
-import { useRouter } from 'next/navigation';
 
 type Props = {
     type: 'create' | 'update';
@@ -24,6 +24,7 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
 
     const formData  = useFormInputStore(state => state.formData);
     const setFormDatas = useFormInputStore(state => state.setFormData);
+    const resetFormData = useFormInputStore(state => state.resetFormData);
 
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -92,6 +93,7 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
             toast.error('등록에 실패하였습니다.');
         } finally {    
             setIsSubmitting(false);
+            resetFormData();
         }
     }
 

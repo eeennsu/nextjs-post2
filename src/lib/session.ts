@@ -1,14 +1,43 @@
 import type { NextAuthOptions, Session, User as NextAuthUser } from 'next-auth';
+import type { JWT } from 'next-auth/jwt';
 import { getServerSession } from 'next-auth/next';
 import GoogleProvider from 'next-auth/providers/google';
 import connectToDB from '@/db/db';
 import User from '@/models/User';
+import jsonwebtoken from 'jsonwebtoken';
 
 export const authOptions: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
     session: {
         strategy: 'jwt'
     },
+    // jwt: {
+    //     encode: ({ secret, token }) => {
+    //         const encodedToken = jsonwebtoken.sign(
+    //             {
+    //                 ...token,
+    //                 iss: 'mongodb',
+    //                 exp: Math.floor(Date.now() / 1000) + 6 * 60 * 60,
+    //             },
+    //             secret
+    //         );
+
+    //         return encodedToken;
+    //     },
+
+    //     decode: async ({ secret, token }) => {
+
+    //         if (!token) {
+    //             console.log('Not defined token.');
+
+    //             return null;
+    //         }
+
+    //         const decodedToken = jsonwebtoken.verify(token, secret) as JWT;
+
+    //         return decodedToken;
+    //     }
+    // },
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -29,7 +58,7 @@ export const authOptions: NextAuthOptions = {
                 const updatedUserInfo = {
                     ...session?.user,
                     avatarUrl: session.user?.image,
-                    _id: sessionUser._id.toString(),
+                    _id: sessionUser._id.toString(),            // mongodb _id
                 };
 
                 const newSession = {

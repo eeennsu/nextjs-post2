@@ -3,7 +3,7 @@ import { uploadImage } from "./upload"
 import { API_URL } from "./config";
 
 export const craeteNewArticle = async (formData: Form, createdBy: string) => {
-    const imageUrl = await uploadImage(formData.image) as UploadApiResponse;
+    const { result: imageUrl } = await uploadImage(formData.image) as UploadApiResponse;
 
     if (!imageUrl.url) {
         return false;
@@ -14,7 +14,24 @@ export const craeteNewArticle = async (formData: Form, createdBy: string) => {
         body: JSON.stringify({ formData, createdBy })
     });
 
-    const { newArticle } = await res.json();
+    const { result } = await res.json();
 
-    return newArticle;
+    return result as Article;
+}
+
+export const getArticles = async (curPage: number) => {    
+    const url = new URL(`${API_URL}/article`);
+    url.searchParams.append('curPage', curPage.toString());
+
+    const res = await fetch(url, { 
+        cache: 'no-cache'   
+    });
+
+    const data = await res.json();
+
+    if (data.error) {
+        return null;
+    }
+
+    return data;
 }
