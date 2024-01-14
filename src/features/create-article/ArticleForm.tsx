@@ -11,9 +11,7 @@ import FormField from './FormField';
 import useFormInputStore from '@/zustand/FormStore/useFormDatatStore';
 import CustomMenu from './CustomMenu';
 import toast, { LoaderIcon } from 'react-hot-toast';
-import PlusIcon from '@/components/PlusIcon';
 import Button2 from '@/components/Button2';
-import RefreshIcon from '@/components/RefreshIcon';
 
 type Props = {
     type: 'create' | 'update';
@@ -104,7 +102,7 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
                     {formData.image.length === 0 && 'Choose a poster for your article.'}
                 </label>
                 <input 
-                    className='absolute opacity-0 z-30 w-full h-full cursor-pointer'
+                    className='absolute z-30 w-full h-full opacity-0 cursor-pointer'
                     id='image'
                     type='file'
                     accept='image/*'
@@ -150,7 +148,7 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
                 placeholder='https://github.com/eeennsu'
             />
 
-            <div className='flex justify-between w-full items-end'>
+            <div className='flex items-end justify-between w-full'>
                 <CustomMenu 
                     label='Category'
                     filters={categoryFilters}
@@ -163,7 +161,13 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
                                     <Spinner />
                                 ) : (
                                     <>
-                                        <PlusIcon className='mr-2 h-5 w-5' />
+                                        <Image 
+                                            src='/plus.svg'
+                                            alt='plus'
+                                            width={26}
+                                            height={26}
+                                            className='mr-2'
+                                        />                                    
                                         create
                                     </>
                                 )
@@ -176,7 +180,13 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
                                     <Spinner />
                                 ) : (
                                     <>
-                                        <RefreshIcon className='mr-2 h-5 w-5' />
+                                        <Image 
+                                            src='/update.svg'
+                                            alt='update'
+                                            width={20}
+                                            height={20}
+                                            className='mr-2'
+                                        />                                
                                         update
                                     </>
                                 )
@@ -197,7 +207,14 @@ const Spinner: FC = () => {
     
     return (
         <>
-            <LoaderIcon className="mr-2 h-5 w-5 animate-spin" />
+            <Image
+                src='/loading.svg'
+                alt='loading'
+                width={26}
+                height={26}
+                className='mr-2 animate-spins'
+            />
+            {/* <div className='w-5 h-5 border-t-4 border-white border-solid rounded-full animate-spin mr-4' /> */}
             <span>Loading...</span>
         </>
     );

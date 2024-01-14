@@ -35,3 +35,11 @@ export const getArticles = async (curPage: number) => {
 
     return data;
 }
+
+export const getOneArticle = async (_id: string) => {
+    const res = await fetch(`${API_URL}/article/${_id}`);
+
+    const data = await res.json();
+
+    return data as Article;
+}
