@@ -10,7 +10,7 @@ export async function GET (req: NextRequest) {
         const paramsCurPage = req.nextUrl.searchParams.get('curPage');
 
         if (!paramsCurPage) {
-            return NextResponse.json({ msg: 'Not Found curPage params.' });
+            return NextResponse.json({ result: null, msg: 'Not Found curPage params.' });
         }
 
         const curPage = +paramsCurPage;
@@ -31,6 +31,6 @@ export async function GET (req: NextRequest) {
         
     } catch (error) {
         console.log(error);
-        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+        return NextResponse.json({ result: null,error: (error as Error).message }, { status: 500 });
     }
 }

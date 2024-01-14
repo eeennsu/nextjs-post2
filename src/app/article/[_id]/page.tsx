@@ -1,5 +1,6 @@
 import { getOneArticle } from '@/lib/actions';
 import type { NextPage } from 'next';
+import Link from 'next/link';
 
 type Props = {
     params: {
@@ -9,9 +10,18 @@ type Props = {
 
 const ArticlePage: NextPage<Props> = async ({ params: { _id } }) => {
 
-    const article = await getOneArticle(_id);
+    const { result } = await getOneArticle(_id);
 
-    console.log(article);
+    if (!result) {
+        return (
+            <div className='flex items-center justify-center'>
+                <h1 className='text-xl'>Article not found</h1>
+                <Link href='/' className='underline'>
+                    <a>Home</a>
+                </Link>
+            </div>
+        )
+    }
 
     return (
         <div>

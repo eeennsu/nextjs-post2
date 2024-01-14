@@ -41,5 +41,5 @@ export const getOneArticle = async (_id: string) => {
 
     const data = await res.json();
 
-    return data as Article;
+    return data;
 }

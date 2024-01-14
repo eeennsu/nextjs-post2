@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     const { imgPath } = await req.json();
 
     if (!imgPath) {
-        return NextResponse.json({ msg: 'Image path is required.' }, { status: 400 });
+        return NextResponse.json({ result: null, msg: 'Image path is required.' }, { status: 400 });
     }
 
     try {
@@ -26,6 +26,6 @@ export async function POST(req: Request) {
 
         return NextResponse.json({ result: imgUrl }, { status: 201 });
     } catch (error) {
-        return NextResponse.json({ msg: (error as Error).message }, { status: 500 });        
+        return NextResponse.json({ result: null, msg: (error as Error).message }, { status: 500 });        
     }
 }
