@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import connectToDB from '@/db/db';
 import Article from '@/models/Article';
 import User from '@/models/User';
-import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 
 export async function GET (req: NextRequest) {
     try {
@@ -31,6 +31,6 @@ export async function GET (req: NextRequest) {
         
     } catch (error) {
         console.log(error);
-        return NextResponse.json({ error: (error as Error).message });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 }

@@ -26,7 +26,7 @@ const RootPage: NextPage = async () => {
             <section className='grid w-full grid-cols-1 gap-10 mt-10 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'>
                 {
                     articles?.map((article) => (
-                        <ArticleCard key={article.id} article={article} />
+                        <ArticleCard key={article._id} article={article} />
                     ))
                 }
             </section>

@@ -10,6 +10,6 @@ type Form = {
 }
 
 type Article = Form & {
-    id: string;
+    _id: string;
     createdBy: NewUser;
 }
