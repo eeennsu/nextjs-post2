@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import { ArticleForm, Modal } from '@/features';
 import { getCurrentUser } from '@/lib/session';
 import { redirect } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 const CreateArticlePage: NextPage = async () => {
 
@@ -9,6 +10,7 @@ const CreateArticlePage: NextPage = async () => {
 
     // 현재 세션 정보 유저가 없으면 초기화면으로 리다이렉트
     if (!session?.user) {
+        toast.error('유저 확인 중 오류가 발생했습니다!');
         redirect('/');
     }
 

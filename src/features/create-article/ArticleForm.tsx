@@ -4,7 +4,7 @@ import type { FC, ChangeEvent, FormEvent } from 'react';
 import type { NewSession } from '@/lib/session';
 import { useState } from 'react';
 import { categoryFilters } from '@/constants';
-import { craeteNewArticle } from '@/lib/actions';
+import { craeteNewArticle } from '@/lib/actions/articleActions';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import FormField from './FormField';
@@ -84,7 +84,7 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
                 toast.success('등록되었습니다!');
                 router.push('/');
             } else {
-
+        
             }
         } catch (error) {
             console.log((error as Error).message);
@@ -120,7 +120,7 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
                     )
                 }
             </div>
-
+           
             <FormField 
                 label='Title'
                 formKey='title'
@@ -212,9 +212,9 @@ const Spinner: FC = () => {
                 alt='loading'
                 width={26}
                 height={26}
-                className='mr-2 animate-spins'
+                className='mr-2 animate-spin'
             />
-            {/* <div className='w-5 h-5 border-t-4 border-white border-solid rounded-full animate-spin mr-4' /> */}
+            {/* <div className='w-5 h-5 mr-4 border-t-4 border-white border-solid rounded-full animate-spin' /> */}
             <span>Loading...</span>
         </>
     );

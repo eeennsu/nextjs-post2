@@ -2,7 +2,7 @@ import { Schema, model, models } from 'mongoose';
 
 const ArticleSchema = new Schema({
     createdBy: {
-        type: Schema.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'User',
         required: true,
     },
@@ -40,6 +40,8 @@ const ArticleSchema = new Schema({
         required: [true, 'Category must be required.'],
     },
 });
+
+ArticleSchema.set('timestamps', true);
 
 export const Article = models['Article'] || model('Article', ArticleSchema);
 

@@ -7,6 +7,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET 
 });
 
+// upload image
 export async function POST(req: Request) {
     const { imgPath } = await req.json();
 

@@ -1,6 +1,8 @@
+'use server';
+
 import type { UploadApiResponse } from "cloudinary";
-import { uploadImage } from "./upload"
-import { API_URL } from "./config";
+import { uploadImage } from "../upload"
+import { API_URL } from "../config";
 
 export const craeteNewArticle = async (formData: Form, createdBy: string) => {
     const { result: imageUrl } = await uploadImage(formData.image) as UploadApiResponse;
@@ -33,7 +35,7 @@ export const getArticles = async (curPage: number) => {
         return null;
     }
 
-    return data;
+    return data as { result: Article[], totalPages: number };
 }
 
 export const getOneArticle = async (_id: string) => {

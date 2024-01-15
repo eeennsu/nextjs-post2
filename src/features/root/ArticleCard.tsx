@@ -10,15 +10,14 @@ type Props = {
 const ArticleCard: FC<Props> = ({ article }) => {
     
     return (      
-        <div className='flex flex-col items-center justify-center transition rounded-md shadow-md hover:shadow-lg'>
+        <div className='flex flex-col items-center justify-center max-w-[250px] transition rounded-md shadow-xl'>
              <div className='flex-1'>
-                <Link className='relative flex items-center justify-center h-full group w-ful' href={`/article/${article._id}`}>                
+                <Link className='relative flex items-center justify-center h-32 w-[250px] group' href={`/article/${article._id}`}>                
                     <Image
                         src={article.image}
                         alt={`${article.title} image`}
-                        className='object-cover w-full h-full rounded-t-md'
-                        width={414}
-                        height={314}
+                        className='object-cover rounded-t-md'
+                        fill
                     />            
                     <div className='absolute bottom-0 z-10 w-full p-3 pt-6 font-light text-white transition-all opacity-0 group-hover:opacity-100 line-clamp-1 bg-gradient-to-b from-transparent to-black/70'>
                         {article.liveSiteUrl}

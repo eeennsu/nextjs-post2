@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import connectToDB from "@/db/db";
 import Article from "@/models/Article";
 
+// create new article
 export async function POST(req: Request) {
     const { formData, createdBy } = await req.json();
     const { title, description, image, liveSiteUrl, githubUrl, category } = formData as Form;

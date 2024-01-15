@@ -4,9 +4,11 @@ import connectToDB from '@/db/db';
 import Article from '@/models/Article';
 import User from '@/models/User';
 
+// get articles by pagination
 export async function GET (req: NextRequest) {
-    try {
+    try {        
         await connectToDB();
+
         const paramsCurPage = req.nextUrl.searchParams.get('curPage');
 
         if (!paramsCurPage) {
@@ -14,7 +16,7 @@ export async function GET (req: NextRequest) {
         }
 
         const curPage = +paramsCurPage;
-        const perPage = 10;
+        const perPage = 4;
 
         const totalArticles = await Article.countDocuments();
         const totalPages = Math.ceil(totalArticles / perPage);
