@@ -16,7 +16,7 @@ export async function GET (req: NextRequest) {
         }
 
         const curPage = +paramsCurPage;
-        const perPage = 4;
+        const perPage = 8;
 
         const totalArticles = await Article.countDocuments();
         const totalPages = Math.ceil(totalArticles / perPage);
