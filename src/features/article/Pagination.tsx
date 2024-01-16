@@ -32,33 +32,25 @@ const Pagination: FC = () => {
 
     return (
         <nav className='flex items-center gap-4'>          
-            <button className={`${noPrev && 'bg-red-300'}`} onClick={() => setCurPage(startNum - 1)} disabled={isFetching || noPrev}>
-                이전
+            <button className={`text-2xl font-extrabold text-black ${noPrev && 'text-opacity-15'}`} onClick={() => setCurPage(startNum - 1)} disabled={isFetching || noPrev}>
+                &lt;
             </button>
-            {
-                Array.from({ length: pageCount }).map((_, i) => (
-                    (i + startNum <= totalPage) && (
-                        <PgButton key={i + startNum} num={i + startNum} isCurrent={i + startNum === curPage} onClick={() => setCurPage(i + startNum)} isFetching={isFetching} />
-                    )
-                ))
-            }
-            <button className={`${noNext && 'bg-red-300'}`} onClick={() => setCurPage(startNum + pageCount)} disabled={isFetching || noNext}>
-                이후
+            <ul className='flex items-center gap-4 mx-4'>
+                {
+                    Array.from({ length: pageCount }).map((_, i) => (
+                        (i + startNum <= totalPage) && (
+                            <li key={i + startNum} >
+                                <PgButton num={i + startNum} isCurrent={i + startNum === curPage} onClick={() => setCurPage(i + startNum)} isFetching={isFetching} />
+                            </li>
+                        )
+                    ))
+                }
+            </ul>
+            <button className={`text-2xl font-extrabold text-black ${noNext && 'text-opacity-15'}`} onClick={() => setCurPage(startNum + pageCount)} disabled={isFetching || noNext}>
+                &gt;
             </button>
         </nav>
     );
 }
 
 export default Pagination;
-
-
-// {
-//     startNum + i <= totalPage && (
-//         <PgButton key={i} num={startNum + i} isCurrent={curPage === i + 1} onClick={() => setCurPage(i + 1)} isFetching={isFetching} />
-//     )
-// }
-
-
-{/* <button className={`${noNext && 'bg-red-300'}`} onClick={() => setCurPage(startNum + pageCount)}>
-다음
-</button> */}

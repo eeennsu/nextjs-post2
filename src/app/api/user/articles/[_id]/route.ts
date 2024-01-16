@@ -12,12 +12,27 @@ type Props = {
 
 // get users articles
 export async function GET(req: NextRequest, { params: { _id } }: Props) {
+    const paramsCurCount = req.nextUrl.searchParams.get('curCount');
+
     try {
         await connectToDB();
 
-        const myArticles = await Article.find({ createdBy: _id }).populate({ path: 'createdBy', model: User });
+        if (!paramsCurCount) {
+            return NextResponse.json({ result: null, msg: 'Not Found curCount params.' }, { status: 400 });
+        }
 
-        return NextResponse.json({ result: myArticles }, { status: 200 });
+        const curCount = +paramsCurCount;
+        const perCount = 4;
+
+        const totalMyArticles = await Article.countDocuments({ createdBy: _id });
+        const totalPages = Math.ceil(totalMyArticles / perCount);
+        
+        const myArticles = await Article.find({ createdBy: _id })
+            .skip((curCount - 1) * perCount)
+            .limit(perCount + 1)        // 메인 게시글에 자신 하나것을 제외해야 하므로
+            .populate({ path: 'createdBy', model: User });
+
+        return NextResponse.json({ result: myArticles, totalPages }, { status: 200 });
 
     } catch (error) {
         console.log(error);

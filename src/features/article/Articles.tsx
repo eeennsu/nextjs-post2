@@ -53,7 +53,11 @@ const Articles: FC = () => {
                 }
             </section>
             <section className='flex items-center justify-center w-full mt-14'>
-                <Pagination />
+                {
+                    articles.length >= 1 && (
+                        <Pagination />
+                    )
+                }
             </section>
         </>
     );

@@ -1,19 +1,36 @@
+'use client';
+
 import type { FC } from 'react';
 import { getMyArticle } from '@/lib/actions/userActions';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import MiniArticleCard from './MiniArticleCard';
 import Link from 'next/link';
+import Button3 from '@/components/Button3';
 
 type Props = {
     mainArticleId: string;
     createdBy: NewUser;
 }
 
-const UserArticles: FC<Props> = async ({ mainArticleId, createdBy: { avatarUrl, _id, name } }) => {
+const UserArticles: FC<Props> = ({ mainArticleId, createdBy: { avatarUrl, _id, name } }) => {
 
-    const { result: articles } = await getMyArticle(_id) as { result: Article[] };
+    const [curCount, setCurCount] = useState<number>(1);
+    const [relatedArticles, setRelatedArticles] = useState<Article[]>([]);
 
-    const relatedArticles = articles.filter((article) => article._id !== mainArticleId);
+    const handleLoadMore = () => {
+        setCurCount(prev => prev + 1);
+    }
+
+    useEffect(() => {
+        (async () => {
+            const data = await getMyArticle(_id, 1) as { result: Article[] };
+            const relatedArticles = data.result.filter((article) => article._id !== mainArticleId);
+
+            setRelatedArticles(prev => [...prev, ...relatedArticles]);
+
+        })();
+    },[_id, ]);
 
     return (
         <section className='flex flex-col items-center justify-center w-full gap-8 mt-14 lg:mt-20 pb-14'>
@@ -39,12 +56,17 @@ const UserArticles: FC<Props> = async ({ mainArticleId, createdBy: { avatarUrl, 
                                 </Link>
                             </p>
                         </div> 
-                        <div className='grid grid-cols-1 gap-8 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'>
+                        <div className='grid grid-cols-1 gap-x-8 gap-y-16 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'>
                             {
                                 relatedArticles?.map((article) => (
                                     <MiniArticleCard key={article._id} article={article} />
                                 ))
                             }
+                        </div>
+                        <div className='flex justify-center w-full mt-12'>
+                            <Button3>
+                                Load More
+                            </Button3>
                         </div>
                     </div>
                 ) : relatedArticles.length === 0 ? null : (

@@ -6,19 +6,19 @@ import User from '@/models/User';
 
 // get articles by pagination
 export async function GET (req: NextRequest) {
+    const paramsCurPage = req.nextUrl.searchParams.get('curPage');
+
     try {        
         await connectToDB();
 
-        const paramsCurPage = req.nextUrl.searchParams.get('curPage');
-
         if (!paramsCurPage) {
-            return NextResponse.json({ result: null, msg: 'Not Found curPage params.' });
+            return NextResponse.json({ result: null, msg: 'Not Found curPage params.' }, { status: 400 });
         }
 
         const curPage = +paramsCurPage;
         const perPage = 8;
 
-        const totalArticles = await Article.countDocuments();
+        const totalArticles = await Article.countDocuments({});
         const totalPages = Math.ceil(totalArticles / perPage);
         
         const articles = await Article.find({})
@@ -26,10 +26,7 @@ export async function GET (req: NextRequest) {
             .limit(perPage)
             .populate({ path: 'createdBy', model: User });
         
-        return NextResponse.json({ 
-            result: articles, 
-            totalPages
-        }, { status: 200 });
+        return NextResponse.json({ result: articles, totalPages }, { status: 200 });
         
     } catch (error) {
         console.log(error);
