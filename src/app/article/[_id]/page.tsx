@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import type { NextPage } from 'next';
-import { getAllArticles, getArticles, getOneArticle } from '@/lib/actions/articleActions';
+import { getArticles, getOneArticle } from '@/lib/actions/articleActions';
 import Link from 'next/link';
 import DetailArticle from '@/features/article/DetailArticle';
 
@@ -39,5 +39,3 @@ const GoToHome: FC = () => (
         </Link>
     </div>
 )
-
-
