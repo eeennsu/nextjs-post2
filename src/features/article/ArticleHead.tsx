@@ -4,10 +4,11 @@ import type { FC } from 'react';
 type Props = {
     title: string;
     category: Category;
+    createdAt: string;
     createdBy: NewUser;
 }
 
-const ArticlerHead: FC<Props> = ({ title, category, createdBy: { avatarUrl, name } }) => {
+const ArticleHead: FC<Props> = ({ title, category, createdAt, createdBy: { avatarUrl, name } }) => {
 
     return (
         <section className='flex items-center justify-center w-full gap-5 lg:justify-start'>
@@ -39,10 +40,13 @@ const ArticlerHead: FC<Props> = ({ title, category, createdBy: { avatarUrl, name
                     <p className='text-purple-500'>
                         {category}
                     </p>
+                    <p className='ml-10 lg:ml-20 italic opacity-80'>
+                        {createdAt || '2024-01-14'}
+                    </p>
                 </div>
             </div>
         </section>
     );
 }
 
-export default ArticlerHead;
+export default ArticleHead;

@@ -17,22 +17,24 @@ export async function GET(req: NextRequest, { params: { _id } }: Props) {
     try {
         await connectToDB();
 
-        if (!paramsCurCount) {
-            return NextResponse.json({ result: null, msg: 'Not Found curCount params.' }, { status: 400 });
-        }
+        // if (!paramsCurCount) {
+        //     return NextResponse.json({ result: null, msg: 'Not Found curCount params.' }, { status: 400 });
+        // }
 
-        const curCount = +paramsCurCount;
-        const perCount = 4;
+        // const curCount = +paramsCurCount;
+        // const perCount = 4;
 
-        const totalMyArticles = await Article.countDocuments({ createdBy: _id });
-        const totalPages = Math.ceil(totalMyArticles / perCount);
+        // const totalMyArticles = await Article.countDocuments({ createdBy: _id });
+        // const totalPages = Math.ceil(totalMyArticles / perCount);
         
-        const myArticles = await Article.find({ createdBy: _id })
-            .skip((curCount - 1) * perCount)
-            .limit(perCount + 1)        // 메인 게시글에 자신 하나것을 제외해야 하므로
-            .populate({ path: 'createdBy', model: User });
+        // const myArticles = await Article.find({ createdBy: _id })
+        //     .skip((curCount - 1) * perCount)
+        //     .limit(perCount + 1)        // 메인 게시글에 자신 하나것을 제외해야 하므로
+        //     .populate({ path: 'createdBy', model: User });
 
-        return NextResponse.json({ result: myArticles, totalPages }, { status: 200 });
+        const myArticles = await Article.find({ _id: { $ne: _id } });
+ 
+        return NextResponse.json({ result: myArticles }, { status: 200 });
 
     } catch (error) {
         console.log(error);

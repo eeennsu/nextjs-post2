@@ -12,8 +12,6 @@ type Form = {
 type Article = Form & {
     _id: string;
     createdBy: NewUser;
-}
-
-type DetailArticle = Article & {
-    createdBy: NewUser;
+    createdAt: string;
+    updatedAt: string;
 }

@@ -7,6 +7,8 @@ import Image from 'next/image';
 import MiniArticleCard from './MiniArticleCard';
 import Link from 'next/link';
 import Button3 from '@/components/Button3';
+import toast from 'react-hot-toast';
+import SkeletonBox from '@/components/SkeletonBox';
 
 type Props = {
     mainArticleId: string;
@@ -15,22 +17,25 @@ type Props = {
 
 const UserArticles: FC<Props> = ({ mainArticleId, createdBy: { avatarUrl, _id, name } }) => {
 
-    const [curCount, setCurCount] = useState<number>(1);
     const [relatedArticles, setRelatedArticles] = useState<Article[]>([]);
-
-    const handleLoadMore = () => {
-        setCurCount(prev => prev + 1);
-    }
+    const [isFetching, setIsFetching] = useState<boolean>(false);
 
     useEffect(() => {
         (async () => {
-            const data = await getMyArticle(_id, 1) as { result: Article[] };
-            const relatedArticles = data.result.filter((article) => article._id !== mainArticleId);
+            try {
+                setIsFetching(true);
 
-            setRelatedArticles(prev => [...prev, ...relatedArticles]);
+                const data = await getMyArticle(_id) as { result: Article[] };
 
+                setRelatedArticles(data.result);
+            } catch (error) {
+                console.log(error);
+                toast.error('관련 포스트를 가져오는데 실패했습니다.');
+            } finally {
+                setIsFetching(false);
+            }
         })();
-    },[_id, ]);
+    },[]);
 
     return (
         <section className='flex flex-col items-center justify-center w-full gap-8 mt-14 lg:mt-20 pb-14'>
@@ -45,34 +50,29 @@ const UserArticles: FC<Props> = ({ mainArticleId, createdBy: { avatarUrl, _id, n
                 /> 
                 <span className='w-full h-0.5 bg-light-white-200' />
             </h3>
-            {
-                relatedArticles?.length >= 1 ? (
-                    <div className='flex flex-col w-full gap-8 mt-5 lg:mt-10'>
-                        <div className='flex items-center justify-center lg:justify-start'>
-                            <p className='text-2xl font-bold '>
-                                More by 
-                                <Link href={`/user/profile/${_id}`} className='ml-3 text-blue-500 underline-offset-4 hover:underline'>
-                                    {name}
-                                </Link>
-                            </p>
-                        </div> 
-                        <div className='grid grid-cols-1 gap-x-8 gap-y-16 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'>
-                            {
-                                relatedArticles?.map((article) => (
-                                    <MiniArticleCard key={article._id} article={article} />
-                                ))
-                            }
-                        </div>
-                        <div className='flex justify-center w-full mt-12'>
-                            <Button3>
-                                Load More
-                            </Button3>
-                        </div>
-                    </div>
-                ) : relatedArticles.length === 0 ? null : (
-                    <NotFounded />
-                )
-            }
+            <div className='flex flex-col w-full gap-8 mt-5 lg:mt-10'>
+                <div className='flex items-center justify-center lg:justify-start'>
+                    <p className='text-2xl font-bold '>
+                        More by 
+                        <Link href={`/user/profile/${_id}`} className='ml-3 text-blue-500 underline-offset-4 hover:underline'>
+                            {name}
+                        </Link>
+                    </p>
+                </div> 
+                <div className='grid grid-cols-1 gap-x-8 gap-y-16 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'>
+                    {
+                        isFetching ? (
+                            <Skeletons />
+                        ) : relatedArticles.length >= 1 ? (
+                            relatedArticles.filter((article) => article._id !== mainArticleId)?.map((article) => (
+                                <MiniArticleCard key={article._id} article={article} />
+                            ))
+                        ) : relatedArticles.length === 0 ? null : (
+                            <NotFounded />
+                        )
+                    }
+                </div>
+            </div>
         </section>
     );
 }
@@ -80,6 +80,15 @@ const UserArticles: FC<Props> = ({ mainArticleId, createdBy: { avatarUrl, _id, n
 export default UserArticles;
 
 
+
+const Skeletons: FC = () => {
+
+    return (
+        [...new Array(4)].map((_, i) => (
+            <SkeletonBox key={i} className='w-[276px] h-[140px]' />
+        ))
+    );
+}
 
 const NotFounded: FC = () => (
     <section className='flex flex-col items-center w-full'>

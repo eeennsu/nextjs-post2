@@ -2,11 +2,9 @@
 
 import { API_URL } from '../config';
 
-export const getMyArticle = async (_id: string, curCount: number) => {
-    const url = new URL(`${API_URL}/user/articles/${_id}`);
-    url.searchParams.append('curCount', curCount.toString());
-
-    const res = await fetch(url, {
+export const getMyArticle = async (_id: string) => {
+    
+    const res = await fetch(`${API_URL}/user/articles/${_id}`, {
         cache: 'no-cache'
     });
 
