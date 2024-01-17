@@ -15,3 +15,9 @@ type NewUser = {
     email: string;
     avatarUrl: string;
 }
+
+type UserInfo = NewUser & {
+    description: string;
+    githubUrl: string;
+    linkedinUrl: string;
+}

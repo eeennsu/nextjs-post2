@@ -19,7 +19,7 @@ export const generateMetadata = async ({ params: { _id } }: Props): Promise<Meta
     };
 }
 
-const CreateArticleLayout: NextPage<PropsWithChildren> = ({ children }) => {
+const EditArticleLayout: NextPage<PropsWithChildren> = ({ children }) => {
 
     return (
         <>
@@ -28,4 +28,4 @@ const CreateArticleLayout: NextPage<PropsWithChildren> = ({ children }) => {
     );
 };
 
-export default CreateArticleLayout;
+export default EditArticleLayout;

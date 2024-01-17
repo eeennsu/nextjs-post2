@@ -1,7 +1,7 @@
 'use client';
 
 import type { FC } from 'react';
-import { getMyArticle } from '@/lib/actions/userActions';
+import { getUserArticles } from '@/lib/actions/userActions';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import MiniArticleCard from './MiniArticleCard';
@@ -25,7 +25,7 @@ const UserArticles: FC<Props> = ({ mainArticleId, createdBy: { avatarUrl, _id, n
             try {
                 setIsFetching(true);
 
-                const data = await getMyArticle(_id) as { result: Article[] };
+                const data = await getUserArticles(_id) as { result: Article[] };
 
                 setRelatedArticles(data.result);
             } catch (error) {

@@ -6,7 +6,7 @@ import { getArticles } from '@/lib/actions/articleActions';
 import { shallow } from 'zustand/shallow';
 import { useSearchParams } from 'next/navigation';
 import ArticleCard from './ArticleCard';
-import Pagination from '../article/Pagination';
+import Pagination from './Pagination';
 import usePaginationStore from '@/zustand/PaginationStore/usePaginationStore';
 import SkeletonBox from '@/components/SkeletonBox';
 
@@ -55,7 +55,7 @@ const Articles: FC = () => {
                     <Grid>
                         <Skeletons />
                     </Grid>
-                ) : (
+                ) : articles.length !== 0 ? (
                     <Grid>
                         {
                             articles?.map((article) => (                    
@@ -63,6 +63,8 @@ const Articles: FC = () => {
                             ))
                         }
                     </Grid>                  
+                ) : (
+                    <FirstCreate />                
                 )
             }      
             <section className='flex items-center justify-center w-full mt-14'>
@@ -98,13 +100,13 @@ const Grid: FC<PropsWithChildren> = ({ children }) => {
     );
 }
 
-// const FirstCreate: FC = () => {
+const FirstCreate: FC = () => {
 
-//     return (
-//         <div className='flex flex-col items-center justify-start paddings'>
-//             <p className='w-full px-2 my-10 text-lg text-center'>
-//                 Not founded any articles, go create some first.
-//             </p>
-//         </div>
-//     );
-// }
+    return (
+        <div className='flex flex-col items-center justify-start paddings'>
+            <p className='w-full px-2 my-10 text-lg text-center'>
+                Not founded any articles, go create some first.
+            </p>
+        </div>
+    );
+}
