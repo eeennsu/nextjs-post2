@@ -1,15 +1,11 @@
 import type { FC } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, memo } from 'react';
+import { categoryFilters } from '@/constants';
 import useFormDatatStore from '@/zustand/FormStore/useFormDatatStore';
 import Image from 'next/image';
 
-type Props = {
-    label: string;
-    filters: Readonly<Category[]>;
-}
-
-const CustomMenu: FC<Props> = ({ label, filters }) => {
+const SelectCategory: FC = () => {
 
     const category = useFormDatatStore(state => state.formData.category);
     const setFormData = useFormDatatStore(state => state.setFormData);
@@ -20,8 +16,8 @@ const CustomMenu: FC<Props> = ({ label, filters }) => {
 
     return (
         <div className='relative flex flex-col items-center justify-start w-full gap-2.5'>
-            <label className='w-full font-extrabold text-gray-100' htmlFor={label}>
-                {label}            
+            <label className='w-full font-extrabold text-gray-100' htmlFor={'Category'}>
+                Category            
             </label>
             <Menu as='div' className='relative self-start xs:min-w-[400px] w-fit'>
                 <div>
@@ -56,7 +52,7 @@ const CustomMenu: FC<Props> = ({ label, filters }) => {
                 >
                     <Menu.Items className='absolute left-0 origin-top flex-col mt-2 overflow-y-auto bg-white border max-h-64 rounded-xl border-nav-border shadow-menu'>
                         {
-                            filters.map((tag) => (
+                            categoryFilters.filter((tag) => tag !== 'All'). map((tag) => (
                                 <Menu.Item key={tag}>
                                     <button className='self-start w-full px-5 py-3 text-lg text-left capitalize hover:bg-light-white-100 whitespace-nowrap' type='button' value={tag} onClick={(e) => handleChange(e.currentTarget.value as Category)}>
                                         {tag}
@@ -71,4 +67,4 @@ const CustomMenu: FC<Props> = ({ label, filters }) => {
     );
 }
 
-export default memo(CustomMenu);
+export default memo(SelectCategory);

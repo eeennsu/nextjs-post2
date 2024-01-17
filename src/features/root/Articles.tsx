@@ -4,13 +4,14 @@ import type { FC, PropsWithChildren } from 'react';
 import { useEffect } from 'react';
 import { getArticles } from '@/lib/actions/articleActions';
 import { shallow } from 'zustand/shallow';
-import ArticleCard from '../root/ArticleCard';
-import Pagination from './Pagination';
+import { useSearchParams } from 'next/navigation';
+import ArticleCard from './ArticleCard';
+import Pagination from '../article/Pagination';
 import usePaginationStore from '@/zustand/PaginationStore/usePaginationStore';
 import SkeletonBox from '@/components/SkeletonBox';
 
 const Articles: FC = () => {
-
+    
     const { curPage, setTotalPage, articles, setArticles, isFetching, setIsFetching } = usePaginationStore(state => ({
         curPage: state.curPage,
         setTotalPage: state.setTotalPage,
@@ -20,29 +21,32 @@ const Articles: FC = () => {
         setIsFetching: state.setIsFetching
     }), shallow);
 
+    const searchParams = useSearchParams();
+    const curCategory = searchParams.get('category') as Category | null;
+
     useEffect(() => {
         (async () => {
             try {
                 setIsFetching(true);
-                const data = await getArticles(curPage);
+                const data = await getArticles(curPage, curCategory);
 
                 const articles = data?.result;
                 const totalPages = data?.totalPages;
 
-                if (totalPages && totalPages !== 0) {
-                    setTotalPage(totalPages);        
-                }      
-
                 if (articles) {
                     setArticles(articles);
                 }
+
+                if (totalPages && totalPages !== 0) {
+                    setTotalPage(totalPages);        
+                }                    
             } catch (error) {
                 throw error;
             } finally {
                 setIsFetching(false);
             }
         })();
-    }, [curPage]); 
+    }, [curPage, curCategory]); 
 
     return (
         <>            
@@ -51,8 +55,6 @@ const Articles: FC = () => {
                     <Grid>
                         <Skeletons />
                     </Grid>
-                ) : articles?.length === 0 ? (
-                    <FirstCreate />
                 ) : (
                     <Grid>
                         {
@@ -60,7 +62,7 @@ const Articles: FC = () => {
                                 <ArticleCard key={article._id} article={article} />                        
                             ))
                         }
-                    </Grid>
+                    </Grid>                  
                 )
             }      
             <section className='flex items-center justify-center w-full mt-14'>
@@ -75,6 +77,8 @@ const Articles: FC = () => {
 }
 
 export default Articles;
+
+
 
 const Skeletons: FC = () => {
     
@@ -94,13 +98,13 @@ const Grid: FC<PropsWithChildren> = ({ children }) => {
     );
 }
 
-const FirstCreate: FC = () => {
+// const FirstCreate: FC = () => {
 
-    return (
-        <div className='flex flex-col items-center justify-start paddings'>
-            <p className='w-full px-2 my-10 text-lg text-center'>
-                Not founded any articles, go create some first.
-            </p>
-        </div>
-    );
-}
+//     return (
+//         <div className='flex flex-col items-center justify-start paddings'>
+//             <p className='w-full px-2 my-10 text-lg text-center'>
+//                 Not founded any articles, go create some first.
+//             </p>
+//         </div>
+//     );
+// }

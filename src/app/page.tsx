@@ -1,12 +1,12 @@
-import type { FC } from 'react';
 import type { NextPage } from 'next';
-import Articles from '@/features/article/Articles';
+import Articles from '@/features/root/Articles';
+import Category from '@/features/root/Category';
 
 const RootPage: NextPage = () => {
 
     return (
         <div className='flex flex-col items-center justify-start mb-16 paddings'>
-            <Title />
+            <Category />
             <Articles />
         </div>
     );
@@ -16,11 +16,5 @@ export default RootPage;
 
 
 
-const Title: FC = () => {
-
-    return (
-            <h1 className='text-2xl font-bold lg:text-5xl'>
-            Categories
-        </h1> 
-    );
-}
+export const revalidate = 0;
+export const dynamic = 'force-dynamic';

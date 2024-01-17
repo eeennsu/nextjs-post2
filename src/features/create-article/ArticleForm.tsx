@@ -3,15 +3,14 @@
 import type { FC, ChangeEvent, FormEvent } from 'react';
 import type { NewSession } from '@/lib/session';
 import { useEffect, useState } from 'react';
-import { categoryFilters } from '@/constants';
 import { craeteNewArticle, updateMyArticle } from '@/lib/actions/articleActions';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import FormField from './FormField';
 import useFormInputStore from '@/zustand/FormStore/useFormDatatStore';
-import CustomMenu from './CustomMenu';
 import toast from 'react-hot-toast';
 import Button2 from '@/components/Button2';
+import SelectCategory from './SelectCategory';
 
 type Props = {
     type: 'create' | 'edit';
@@ -177,10 +176,7 @@ const ArticleForm: FC<Props> = ({ type, session, editedArticle }) => {
             />
 
             <div className='flex items-end justify-between w-full'>
-                <CustomMenu 
-                    label='Category'
-                    filters={categoryFilters}
-                />
+                <SelectCategory />
                 {
                     type === 'create' ? (
                         <Button2 type='submit' disabled={isSubmitting}>

@@ -9,10 +9,9 @@ export const navLinks: NavLink[] = [
     { href: '/', key: 'Career Advancement', text: 'Career Advancement' },
     { href: '/', key: 'Hire Developers', text: 'Hire Developers' }
 ];
-  
-
 
 export const categoryFilters: Category[] = [
+    'All',
     'Frontend',
     'Backend',   
     'Full-Stack',
