@@ -12,7 +12,7 @@ type Props = {
 
 // get users articles
 export async function GET(req: NextRequest, { params: { _id } }: Props) {
-    const paramsCurCount = req.nextUrl.searchParams.get('curCount');
+    // const paramsCurCount = req.nextUrl.searchParams.get('curCount');
 
     try {
         await connectToDB();

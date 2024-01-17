@@ -26,15 +26,17 @@ const CustomMenu: FC<Props> = ({ label, filters }) => {
             <Menu as='div' className='relative self-start xs:min-w-[400px] w-fit'>
                 <div>
                     <Menu.Button className='inline-flex items-center justify-between w-full gap-4 p-4 h-[60px] text-base capitalize rounded-md outline-none bg-light-white-100'>                     
-                        {category.length !==0 ? (
-                            <span className='text-lg font-semibold'>
-                                {category}
-                            </span>
-                        ) : (
-                            <span className='text-gray-100/60'>
-                                Select a category
-                            </span>
-                        )}                        
+                        {
+                            category.length !==0 ? (
+                                <span className='text-lg font-semibold'>
+                                    {category}
+                                </span>
+                            ) : (
+                                <span className='text-gray-100/60'>
+                                    Select a category
+                                </span>
+                            )
+                        }                        
                         <Image
                             src='/arrow-down.svg'
                             width={10}

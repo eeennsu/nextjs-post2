@@ -23,6 +23,8 @@ const useFormDatatStore = createWithEqualityFn<FormDataStoreType>()(
                 }
             }), false, 'SET_FORM_DATA'),
 
+            allSetFormData: (formData) => set(() => ({ formData }), false, 'ALL_SET_FORM_DATA'),
+
             resetFormData: () => set(() => ({ formData: initFormData }), false, 'RESET_FORM_DATA')
         })
     )

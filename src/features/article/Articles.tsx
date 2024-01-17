@@ -1,6 +1,6 @@
 'use client';
 
-import type { FC } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import { useEffect } from 'react';
 import { getArticles } from '@/lib/actions/articleActions';
 import { shallow } from 'zustand/shallow';
@@ -25,7 +25,7 @@ const Articles: FC = () => {
             try {
                 setIsFetching(true);
                 const data = await getArticles(curPage);
-                console.log(data?.result);
+
                 const articles = data?.result;
                 const totalPages = data?.totalPages;
 
@@ -45,20 +45,24 @@ const Articles: FC = () => {
     }, [curPage]); 
 
     return (
-        <>
-            <section className='grid w-full grid-cols-1 gap-10 mt-10 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'>
-                {
-                    isFetching ? (
+        <>            
+            {
+                isFetching ? (
+                    <Grid>
                         <Skeletons />
-                    ) : articles?.length === 0 ? (
-                        <FirstCreate />
-                    ) : (
-                        articles?.map((article) => (
-                            <ArticleCard key={article._id} article={article} />
-                        ))
-                    )
-                }
-            </section>
+                    </Grid>
+                ) : articles?.length === 0 ? (
+                    <FirstCreate />
+                ) : (
+                    <Grid>
+                        {
+                            articles?.map((article) => (                    
+                                <ArticleCard key={article._id} article={article} />                        
+                            ))
+                        }
+                    </Grid>
+                )
+            }      
             <section className='flex items-center justify-center w-full mt-14'>
                 {
                     articles.length >= 1 && (
@@ -72,14 +76,21 @@ const Articles: FC = () => {
 
 export default Articles;
 
-
-
 const Skeletons: FC = () => {
     
     return (
         [...new Array(8)].map((_, i) => (
             <SkeletonBox key={i} className='w-[250px] h-[310px]' />
         ))
+    );
+}
+
+const Grid: FC<PropsWithChildren> = ({ children }) => {
+
+    return (
+        <section className='grid w-full grid-cols-1 gap-10 mt-10 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'>
+            {children}
+        </section>
     );
 }
 

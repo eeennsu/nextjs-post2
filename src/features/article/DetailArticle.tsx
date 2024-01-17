@@ -15,9 +15,9 @@ const DetailArticle: FC<Props> = ({ article }) => {
     return (
         <Modal>
             <article className='flex flex-col w-full h-full gap-4'>
-                <ArticleHead title={title} category={category as Category} createdBy={createdBy} createdAt={createdAt} />
+                <ArticleHead articleId={_id} title={title} category={category as Category} createdBy={createdBy} createdAt={createdAt} />
                 <ArticleBody image={image} description={description} githubUrl={githubUrl} liveSiteUrl={liveSiteUrl} />
-                {/* <UserArticles mainArticleId={_id} createdBy={createdBy} /> */}
+                <UserArticles mainArticleId={_id} createdBy={createdBy} />
             </article>
         </Modal>
     );

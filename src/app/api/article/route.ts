@@ -25,7 +25,7 @@ export async function GET (req: NextRequest) {
             .skip((curPage - 1) * perPage)
             .limit(perPage)
             .populate({ path: 'createdBy', model: User });
-        
+    
         return NextResponse.json({ result: articles, totalPages }, { status: 200 });
         
     } catch (error) {

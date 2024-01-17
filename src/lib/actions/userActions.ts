@@ -4,9 +4,7 @@ import { API_URL } from '../config';
 
 export const getMyArticle = async (_id: string) => {
     
-    const res = await fetch(`${API_URL}/user/articles/${_id}`, {
-        cache: 'no-cache'
-    });
+    const res = await fetch(`${API_URL}/user/articles/${_id}`);
 
     const data = await res.json();
 

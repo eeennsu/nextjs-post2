@@ -2,30 +2,34 @@
 
 import type { FC, ChangeEvent, FormEvent } from 'react';
 import type { NewSession } from '@/lib/session';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { categoryFilters } from '@/constants';
-import { craeteNewArticle } from '@/lib/actions/articleActions';
+import { craeteNewArticle, updateMyArticle } from '@/lib/actions/articleActions';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import FormField from './FormField';
 import useFormInputStore from '@/zustand/FormStore/useFormDatatStore';
 import CustomMenu from './CustomMenu';
-import toast, { LoaderIcon } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import Button2 from '@/components/Button2';
 
 type Props = {
-    type: 'create' | 'update';
+    type: 'create' | 'edit';
     session: NewSession;
+    editedArticle?: Article;
 }
 
-const ArticleForm: FC<Props> = ({ type, session }) => {
+const ArticleForm: FC<Props> = ({ type, session, editedArticle }) => {
 
-    const formData  = useFormInputStore(state => state.formData);
+    const formData = useFormInputStore(state => state.formData);
     const setFormDatas = useFormInputStore(state => state.setFormData);
+    const allSetFormData = useFormInputStore(state => state.allSetFormData);
     const resetFormData = useFormInputStore(state => state.resetFormData);
 
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+    const isEditing = type === 'edit' && editedArticle;
 
     const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -63,20 +67,21 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
         e.preventDefault();
 
         setIsSubmitting(true);
-        // toast.loading('등록하는 중..');
-        
+
         try {
             if (type === 'create') {
-                const result = await craeteNewArticle({
+                const newForm: Form = {
                     ...formData,
                     title: formData.title.trim(),
                     description: formData.description.trim(),
                     liveSiteUrl: formData.liveSiteUrl.trim(),
-                    githubUrl: formData.githubUrl.trim()               
-                }, session.user._id);
+                    githubUrl: formData.githubUrl.trim()      
+                };
+
+                const result = await craeteNewArticle(newForm, session.user._id);
 
                 if (!result) {
-                    toast.error('이미지를 업로딩하는 과정에서 오류가 발생했습니다.');
+                    toast.error('새 기사 등록에 실패하였습니다');
                     router.push('/');
                     return;
                 }
@@ -84,7 +89,24 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
                 toast.success('등록되었습니다!');
                 router.push('/');
             } else {
-        
+                const editedForm: Form = {
+                    ...formData,
+                    title: formData.title.trim(),
+                    description: formData.description.trim(),
+                    liveSiteUrl: formData.liveSiteUrl.trim(),
+                    githubUrl: formData.githubUrl.trim(),
+                };
+
+                const result = await updateMyArticle(editedArticle!._id, editedForm, editedArticle!.createdBy._id);
+
+                if (!result) {
+                    toast.error('기사의 수정에 실패하였습니다.');
+                    router.push('/');
+                    return;
+                }
+
+                toast.success('수정되었습니다!');
+                router.push('/');
             }
         } catch (error) {
             console.log((error as Error).message);
@@ -94,6 +116,12 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
             resetFormData();
         }
     }
+
+    useEffect(() => {
+        if (isEditing) {
+            allSetFormData(editedArticle);
+        }
+    }, [isEditing]);
 
     return (
         <form className='flex flex-col items-center justify-start w-full max-w-5xl pt-6 mx-auto text-lg lg:mt-14 mt-7 gap-9' onSubmit={handleSubmit}>
@@ -138,14 +166,14 @@ const ArticleForm: FC<Props> = ({ type, session }) => {
                 type='url'
                 label='Website URL'
                 formKey='liveSiteUrl'
-                placeholder='https://velog.io/@diso592/posts'                
+                placeholder='https://velog.io/@diso592/posts'            
             />
 
             <FormField 
                 type='url'
                 label='GitHub URL'
                 formKey='githubUrl'
-                placeholder='https://github.com/eeennsu'
+                placeholder='https://github.com/eeennsu'  
             />
 
             <div className='flex items-end justify-between w-full'>

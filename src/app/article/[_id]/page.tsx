@@ -12,16 +12,16 @@ type Props = {
 
 const DetailArticlePage: NextPage<Props> = async ({ params: { _id } }) => {
 
-    const { result } = await getOneArticle(_id) as { result: Article };
+    const data = await getOneArticle(_id);
 
-    if (!result) {
+    if (!data?.result) {
         return (
             <GoToHome />
         );
     }
 
     return (
-        <DetailArticle article={result} />
+        <DetailArticle article={data.result} />
     );
 };
 

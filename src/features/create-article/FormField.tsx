@@ -43,8 +43,8 @@ const FormField: FC<Props> = ({ type, label, formKey, placeholder, isTextArea })
                             className={className}
                             type={type ? type : 'text'}
                             placeholder={placeholder}
-                            value={value}
                             onChange={handleChange}
+                            value={value}
                             required={true}
                         />
                     )
