@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import type { NextPage } from 'next';
-import { getArticles, getOneArticle } from '@/lib/actions/articleActions';
+import { getAllArticles, getArticles, getOneArticle } from '@/lib/actions/articleActions';
 import Link from 'next/link';
 import DetailArticle from '@/features/article/DetailArticle';
 

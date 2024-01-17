@@ -50,6 +50,14 @@ export const getArticles = async (curPage: number, category: Category | null) =>
     return data as { result: Article[], totalPages: number };
 }
 
+export const getAllArticles = async () => {
+    const res = await fetch(`${API_URL}/article/all`);
+
+    const data = await res.json();
+
+    return data as { result: Article[] };
+}
+
 export const getOneArticle = async (_id: string) => {
     const res = await fetch(`${API_URL}/article/${_id}`);
 

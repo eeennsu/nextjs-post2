@@ -1,16 +1,16 @@
 import type { Metadata, NextPage } from 'next';
 import type { PropsWithChildren } from 'react';
+import { getCurrentUser } from '@/lib/session';
 
-// export const generateMetadata = async ({ params: { _id } }: Props): Promise<Metadata> => {
+export const generateMetadata = async (): Promise<Metadata> => {
     
-//     const data = await getOneUser(_id);
-//     const article = data?.result;
+    const data = await getCurrentUser();
 
-//     return {
-//         title: `${data.result.} ${article?.title}`,
-//         description: `This page is Created by ${article?.createdBy.name}.`
-//     };
-// }
+    return {
+        title: `${data?.user.name}'s Profile`,
+        description: `This page is ${data?.user.name}'s Profile Page.`
+    };
+}
 
 const ProfileLayout: NextPage<PropsWithChildren> = ({ children }) => {
 
