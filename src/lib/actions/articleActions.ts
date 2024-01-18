@@ -36,7 +36,7 @@ export const getArticles = async (curPage: number, category: Category | null) =>
         searchParams.set('category', category);
     }
  
-    const res = await fetch(`${API_URL}/${searchParams.toString()}`, {
+    const res = await fetch(`${API_URL}/article?${searchParams.toString()}`, {
         headers,
         cache: 'no-store'
     });
