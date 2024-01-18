@@ -36,7 +36,7 @@ export const getArticles = async (curPage: number, category: Category | null) =>
         url.searchParams.append('category', category);
     }
  
-    const res = await fetch(url, {
+    const res = await fetch(url.toString(), {
         headers,
         cache: 'no-store'
     });
