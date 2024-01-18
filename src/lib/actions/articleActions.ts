@@ -1,5 +1,3 @@
-'use server';
-
 import type { UploadApiResponse } from "cloudinary";
 import { uploadImage } from "../upload"
 import { API_URL, headers } from "../config";

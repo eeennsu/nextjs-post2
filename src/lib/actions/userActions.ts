@@ -1,5 +1,3 @@
-'use server';
-
 import { API_URL, headers } from '../config';
 
 export const getUserProfile = async (_id: string) => {
