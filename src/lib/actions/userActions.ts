@@ -1,10 +1,12 @@
 'use server';
 
-import { API_URL } from '../config';
+import { API_URL, headers } from '../config';
 
 export const getUserProfile = async (_id: string) => {
     
-    const res = await fetch(`${API_URL}/user/profile/${_id}`);
+    const res = await fetch(`${API_URL}/user/profile/${_id}`, {
+        headers
+    });
 
     const data = await res.json();
 
@@ -17,7 +19,9 @@ export const getUserProfile = async (_id: string) => {
 
 export const getUserArticles = async (_id: string) => {
     
-    const res = await fetch(`${API_URL}/user/articles/${_id}`);
+    const res = await fetch(`${API_URL}/user/articles/${_id}`, {
+        headers
+    });
 
     const data = await res.json();
 

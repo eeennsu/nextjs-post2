@@ -2,7 +2,7 @@
 
 import type { UploadApiResponse } from "cloudinary";
 import { uploadImage } from "../upload"
-import { API_URL } from "../config";
+import { API_URL, headers } from "../config";
 
 export const craeteNewArticle = async (formData: Form, creatorId: string) => {
     const { result: imageData } = await uploadImage(formData.image) as UploadApiResponse;
@@ -12,6 +12,7 @@ export const craeteNewArticle = async (formData: Form, creatorId: string) => {
     }
 
     const res = await fetch(`${API_URL}/article/new`, {
+        headers,
         method: 'POST',
         body: JSON.stringify(
             { 
@@ -21,7 +22,7 @@ export const craeteNewArticle = async (formData: Form, creatorId: string) => {
                 }, 
                 createdBy: creatorId 
             }
-        )
+        ),
     });
 
     const { result } = await res.json();
@@ -38,6 +39,7 @@ export const getArticles = async (curPage: number, category: Category | null) =>
     }
  
     const res = await fetch(url, {
+        headers,
         cache: 'no-store'
     });
 
@@ -51,7 +53,9 @@ export const getArticles = async (curPage: number, category: Category | null) =>
 }
 
 export const getOneArticle = async (_id: string) => {
-    const res = await fetch(`${API_URL}/article/${_id}`);
+    const res = await fetch(`${API_URL}/article/${_id}`, {
+        headers
+    });
 
     const data = await res.json();
 
@@ -64,7 +68,8 @@ export const getOneArticle = async (_id: string) => {
 
 export const deleteMyArticle = async (_id: string) => {
     const res = await fetch(`${API_URL}/article/${_id}`, {
-        method: 'DELETE'
+        headers,
+        method: 'DELETE',
     });
 
     const data = await res.json();
@@ -80,6 +85,7 @@ export const updateMyArticle = async (articleId: string, updatedForm: Form, crea
     }
 
     const res = await fetch(`${API_URL}/article/${articleId}`, {
+        headers,
         method: 'PATCH',
         body: JSON.stringify(
             { 
