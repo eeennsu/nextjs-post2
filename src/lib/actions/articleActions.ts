@@ -29,14 +29,14 @@ export const craeteNewArticle = async (formData: Form, creatorId: string) => {
 }
 
 export const getArticles = async (curPage: number, category: Category | null) => {    
-    const url = new URL(`${API_URL}/article`);
-    url.searchParams.append('curPage', curPage.toString());
+    const searchParams = new URLSearchParams();
+    searchParams.set('curPage', curPage.toString());
 
     if (category) {
-        url.searchParams.append('category', category);
+        searchParams.set('category', category);
     }
  
-    const res = await fetch(url.toString(), {
+    const res = await fetch(`${API_URL}/${searchParams.toString()}`, {
         headers,
         cache: 'no-store'
     });
